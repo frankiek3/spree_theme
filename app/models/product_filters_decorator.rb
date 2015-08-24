@@ -91,7 +91,7 @@ module Spree
           opts_conds = opts.map{|o| conds[o] }.reject(&:blank?).uniq
           return all if opts_conds.all?(&:blank?)
           table_alias = "#{method_any}_alias"
-          joins("INNER JOIN `spree_product_properties` AS `#{table_alias}` ON `#{table_alias}`.`product_id` = `spree_products`.`id`").where(table_alias => { value: opts_conds})
+          joins("INNER JOIN `spree_product_properties` AS `#{table_alias}` ON `#{table_alias}`.`product_id` = `spree_products`.`id`").where(table_alias => {value: opts_conds})
           #joins(:product_properties).where(Spree::ProductProperty.table_name => { value: scope})
         end
 

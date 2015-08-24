@@ -1,4 +1,6 @@
 Spree::Taxon.class_eval do
+    has_many :variants, through: :classifications
+
     # indicate which filters should be used for a taxon
     def applicable_filters
       fs = []

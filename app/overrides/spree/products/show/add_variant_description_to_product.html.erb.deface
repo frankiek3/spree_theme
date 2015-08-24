@@ -1,0 +1,13 @@
+<!-- insert_top '[data-hook="description"]' -->
+<% @variants = @product.variants_and_option_values(current_currency) %>
+<ul id="specific-description" data-hook="specific-description">
+<% if @variants.any? %>
+	<% @variants.each_with_index do |variant, index| %>
+	<li style="list-style-type: none;" class='vtmb tmb-<%= variant.id %>'>
+		<div>
+		<%= raw(variant.description.gsub(/(.*?)\r?\n\r?\n/m, '<p>\1</p>')) rescue "" || Spree.t(:variant_has_no_description) %>
+		</div>
+	</li>
+	<% end %>
+<% end %>
+</ul>

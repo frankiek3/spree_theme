@@ -1,0 +1,2 @@
+<!-- replace 'erb:contains("radio_button_tag")' disabled -->
+<%= radio_button_tag "variant_id", variant.id, false, 'data-price' => variant.price_in(current_currency).money  %>

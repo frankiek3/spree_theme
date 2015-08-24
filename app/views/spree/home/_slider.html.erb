@@ -2,22 +2,25 @@
   <div id="home-slider">
     <ul>
       <% @slider_products.each do |product| %>
+        <% items_to_show(product,nil).each do |variant| %>
         <li>
           <div class="product-image">
-            <%= link_to product_image(product), product %>
+            <% variant_name = variant.option_values.present? ? "#{product.name} (#{variant.options_text})" : product.name %>
+            <% images = product.variant_images.select{|i| i.viewable_id  == variant.id } %>
+            <%= link_to(images.any? ? image_tag(images.first.attachment.url(:product), {alt: variant_name}) : product_image(product, itemprop: "image"), product, itemprop: 'url') %>
           </div>
           <div class="product-info">
-            <h1 class="product-title"><%= product.name %></h1>
+            <h1 class="product-title"><%= variant_name %></h1>
             <div class="product-description">
               <%= product.description.to_s.html_safe %>
             </div>
             <div class="product-order-form">
               <%= form_for :order, url: populate_orders_path do |f| %>
                 <span class="product-price">
-                  <%= product.display_price %>
+                  <%= display_price(variant) %>
                 </span>
-                <%= number_field_tag :quantity, 1, class: 'title', in: 1..Spree::Stock::Quantifier.new(product.master).total_on_hand, min: 1 %>
-                <%= hidden_field_tag :variant_id, product.master.id %>
+                <%= number_field_tag :quantity, 1, class: 'title', in: 1..Spree::Stock::Quantifier.new(variant).total_on_hand, min: 1 %>
+                <%= hidden_field_tag :variant_id, variant.id %>
                 <%= button_tag id: 'add-to-cart-button', type: :submit do %>
                   <%= content_tag(:i, '', class: 'icon-plus') + " " + Spree.t(:add_to_cart) %>
                 <% end %>
@@ -25,6 +28,7 @@
             </div>
           </div>
         </li>
+        <% end %>
       <% end %>
     </ul>
   </div>

@@ -1,4 +1,15 @@
 <!-- insert_top '[data-hook="body"]' -->
+<div id="ajax_choose_flash" class="dialog">
+  <span class="dialog-close">
+    <button class="button close-dialog-button">X</button>
+  </span>
+  <div class="product-options">
+    <div class="product-options-text">Click an item to add it to your cart.</div>
+    <ul id="product_choices" class="product-choices">
+    </ul>
+  </div>
+</div>
+
 <div id="ajax_cart_flash" class="dialog">
   <span class="dialog-close">
     <button class="button close-dialog-button">X</button>
@@ -21,4 +32,5 @@
     <span><%= link_to_with_icon('icon-basket', Spree.t(:view_cart), spree.cart_path, { class: 'icon-basket button' }) %></span>
   </div>
 </div>
+
 <div style="display: none;" class="dialog-overlay"></div>

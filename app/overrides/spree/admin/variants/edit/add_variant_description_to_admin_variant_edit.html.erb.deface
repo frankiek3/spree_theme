@@ -1,0 +1,26 @@
+<!-- insert_after '[data-hook="admin_variant_edit_form"]' -->
+<div data-hook="admin_variant_form_shipping_categories">
+      <%= f.field_container :shipping_categories do %>
+        <%= f.label :shipping_category_id, Spree.t(:shipping_categories) %><br />
+        <%= f.collection_select(:shipping_category_id, @shipping_categories, :id, :name, { include_blank: Spree.t('match_choices.none') }, { class: 'select2' }) %>
+        <%= f.error_message_on :shipping_category %>
+      <% end %>
+</div>
+
+<div class="twelve columns alpha omega">
+    <div data-hook="admin_variant_form_taxons">
+      <%= f.field_container :taxons do %>
+        <%= f.label :taxon_ids, Spree.t(:taxons) %><br />
+        <%= f.collection_select(:taxon_ids, @taxons, :id, :name, { include_blank: Spree.t('match_choices.none') }, { class: 'select2' }) %>
+        <%#= f.hidden_field :taxon_ids, :value => @variant.taxon_ids.join(',') %>
+      <% end %>
+    </div>
+</div>
+
+<div data-hook="admin_variant_form_description">
+<%#= f.field_container :description do %>
+	<%#= f.label :description, Spree.t(:description) %><br />
+	<%#= f.text_area :description, {rows: "15", class: 'fullwidth'} %>
+	<%#= f.error_message_on :description %>
+<%# end %>
+</div>
