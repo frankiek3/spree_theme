@@ -1,4 +1,4 @@
-<!-- insert_after '[data-hook="admin_variant_edit_form"]' -->
+<!-- insert_bottom '[data-hook="admin_variant_form_fields"]' -->
 <div data-hook="admin_variant_form_shipping_categories">
       <%= f.field_container :shipping_categories do %>
         <%= f.label :shipping_category_id, Spree.t(:shipping_categories) %><br />
