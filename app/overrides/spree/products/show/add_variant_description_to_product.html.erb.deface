@@ -1,7 +1,7 @@
-<!-- insert_top '[data-hook="description"]' -->
-<% @variants = @product.variants_and_option_values(current_currency) %>
+<!-- insert_top '[data-hook="description"]' disabled -->
+<% @variants = @product.variants_and_option_values(current_currency) if @product.has_variants? %>
+<% if @variants.present? %>
 <ul id="specific-description" data-hook="specific-description">
-<% if @variants.any? %>
 	<% @variants.each_with_index do |variant, index| %>
 	<li style="list-style-type: none;" class='vtmb tmb-<%= variant.id %>'>
 		<div>
@@ -9,5 +9,5 @@
 		</div>
 	</li>
 	<% end %>
-<% end %>
 </ul>
+<% end %>

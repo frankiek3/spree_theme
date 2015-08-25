@@ -4,40 +4,44 @@
 @variants = @product.variants_and_option_values(current_currency)
 format_option = Spree::OptionType.where(name:"Format").first
 if @product.option_types.include?(format_option)
-	#formats = @variants.map{ |v| v.option_values.reject{ |o| o.option_type != Spree::OptionType.where(name:"Format").first}}.flatten
-	variant_option_values = @variants.group_by { |v| v.option_values.detect { |o| o.option_type == format_option} }
-	variant_option_values.each do |variant_option_value,vs| %>
-<h6><%= variant_option_value.presentation %></h6>
-	<div>
-	<% vs.each_with_index do |variant,index| %>
-<span>
-		<% next if variant.option_values.empty?
-		selected = !has_checked && variant.can_supply?
-		has_checked = true if selected %>
-		<%= radio_button_tag "variant_id", variant.id, selected, {id: ['products', @product.id, variant.id].join('_'), class: "ui-helper-hidden-accessible", 'data-price': variant.price_in(current_currency).display_price, disabled: !variant.can_supply?} %>
-		<label for="<%= ['products', @product.id, variant.id].join('_') %>">
-			<span class="variant-description">
-		<%= variant.options_text("Format") %>
-			</span>
-		</label>
-</span>
-	<% end %>
-	</div>
-	<% end
+  #formats = @variants.map{ |v| v.option_values.reject{ |o| o.option_type != Spree::OptionType.where(name:"Format").first}}.flatten
+  variant_option_values = @variants.group_by { |v| v.option_values.detect { |o| o.option_type == format_option} }
+  variant_option_values.each do |variant_option_value,vs| %>
+  <h6><%= variant_option_value.presentation %></h6>
+  <div>
+  <% vs.each_with_index do |variant,index| %>
+    <span>
+    <% next if variant.option_values.empty?
+       selected = !has_checked && variant.can_supply?
+       vp = variant.volume_prices.map{|v_p| v_p.id}.join(',') if variant.volume_prices.present?
+       has_checked = true if selected %>
+    <%= radio_button_tag "variant_id", variant.id, selected, {id: ['products', @product.id, variant.id].join('_'), class: "ui-helper-hidden-accessible", 'data-price': variant.price_in(current_currency).display_price, disabled: !variant.can_supply?, 'data-volume-price': vp} %>
+      <label for="<%= ['products', @product.id, variant.id].join('_') %>">
+        <span class="variant-description">
+          <%= variant.options_text("Format") %>
+        </span>
+      <% if variant_price(variant) %>
+        <span class="price diff"><%= variant_price variant %></span>
+      <% end %>
+      </label>
+    </span>
+  <% end %>
+  </div>
+<% end
 else
-	@variants.each_with_index do |variant,index|
-		next if variant.option_values.empty?
-		selected = !has_checked && variant.can_supply?
-		has_checked = true if selected %>
-		<%= radio_button_tag "variant_id", variant.id, selected, {id: ['products', @product.id, variant.id].join('_'), class: "ui-helper-hidden-accessible", 'data-price': variant.price_in(current_currency).display_price, disabled: !variant.can_supply?} %>
-		<label for="<%= ['products', @product.id, variant.id].join('_') %>">
-			<span class="variant-description">
-		<%= variant_options variant %>
-			</span>
-		<% if false && variant_price(variant) %>
-			<span class="price diff"><%= variant_price variant %></span>
-		<% end %>
-		</label>
-	<% end %>
+  @variants.each_with_index do |variant,index|
+  next if variant.option_values.empty?
+  selected = !has_checked && variant.can_supply?
+  has_checked = true if selected %>
+  <%= radio_button_tag "variant_id", variant.id, selected, {id: ['products', @product.id, variant.id].join('_'), class: "ui-helper-hidden-accessible", 'data-price': variant.price_in(current_currency).display_price, disabled: !variant.can_supply?} %>
+  <label for="<%= ['products', @product.id, variant.id].join('_') %>">
+    <span class="variant-description">
+      <%= variant_options variant %>
+    </span>
+    <% if variant_price(variant) %>
+    <span class="price diff"><%= variant_price variant %></span>
+    <% end %>
+  </label>
+  <% end %>
 <% end %>
 </div>

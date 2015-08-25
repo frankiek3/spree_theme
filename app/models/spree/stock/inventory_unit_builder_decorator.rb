@@ -1,5 +1,4 @@
 Spree::Stock::InventoryUnitBuilder.class_eval do
-
       def units
         @order.line_items.flat_map do |line_item|
           line_item.quantity.times.map do |i|

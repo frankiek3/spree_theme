@@ -254,9 +254,23 @@ $(function(){
 //  });
 
 $(function () {
-  if($("input[name=variant_id][type=radio]").length)
+  $('#product-variants input[type="radio"]').click(function(event){
+    var volPrice = $(this).data('volume-price');
+    if(volPrice)
+    {
+      volPrice = (volPrice+'').split(',');
+      var v = volPrice.pop();
+      $('#bulk-discount, #vol-price-'+volPrice.join(' #vol-price-')+v).show();
+    }
+    else
+    {
+       $('#bulk-discount, [id^=vol-price]').hide();
+    }
+  });
+
+  if($("input[name='variant_id'][type='radio']").length)
   {
-    $("input[name=variant_id][type=radio]").each(function(i, item){if(item.checked){item.click();}});
+    $("input[name='variant_id'][type='radio']").each(function(i, item){if(item.checked){item.click();}});
   }
 
   $('.dialog-overlay').on('click', function() {
