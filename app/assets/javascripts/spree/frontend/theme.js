@@ -335,7 +335,7 @@ $(function () {
       $.each(data.variants, function(index, v){
         $('#product_choices')
           .append($(document.createElement("LI"))
-            .append($(document.createElement("SPAN")).append($(v.image)).append($(v.link)
+            .append($(document.createElement("SPAN")).append($(v.image).addClass("product-option-image")).append($(v.link)
               .append($(document.createElement("SPAN")).addClass("selling").css("float","right").html(v.price))
             )
           )
