@@ -19,7 +19,7 @@ Spree::Variant.class_eval do
 	has_many :classifications, dependent: :delete_all, inverse_of: :variant
 	has_many :taxons, through: :classifications
 
-	validates :shipping_category_id, presence: true
+	#validates :shipping_category_id, presence: true
 
 	def options_text(remove_value = nil)
 		values = self.option_values.sort do |a, b|
